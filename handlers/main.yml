@@ -1,0 +1,4 @@
+---
+- name: Rebuild library cache
+  command: ldconfig
+  become: true

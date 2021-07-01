@@ -1,0 +1,30 @@
+---
+base_packages:
+  - unzip
+  - gcc
+  - gcc-gfortran
+  - gcc-c++
+  - wget
+  - expat
+  - expat-devel
+  - libpng
+  - libpng-devel
+  - curl
+  - libcurl-devel
+  - m4
+  - zlib
+  - zlib-devel
+  - make
+  - libX11-devel
+  - libXaw
+  - libXaw-devel
+  - lftp
+  - tar
+toolchain_packages:
+  - netcdf
+  - netcdf-devel
+  - udunits2
+  - udunits2-devel
+  - hdf5
+  - hdf5-devel
+  - ncview

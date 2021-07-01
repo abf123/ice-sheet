@@ -1,0 +1,30 @@
+---
+- name: Install Base Packages
+  package:
+    name: "{{ base_packages }}"
+    state: present
+  become: true
+
+- name: Install the Ice Melange Stack
+  package:
+    name: "{{ toolchain_packages }}"
+    state: present
+  become: true
+  when:
+    - melange_type == 'install' 
+
+- name: Place ld so conf dropin file
+  lineinfile:
+    path: /etc/ld.so.conf.d/usr-local.conf
+    line: /usr/local/lib
+    create: yes
+  become: true
+  notify: Rebuild library cache
+  when:
+    - melange_type == 'build'
+
+- name: Build the Ice Melange Stack
+  include_tasks: build_swst.yml
+  loop: "{{ source_packages }}"
+  when:
+    - melange_type == 'build'

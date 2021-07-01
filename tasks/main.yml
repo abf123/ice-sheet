@@ -1,0 +1,25 @@
+---
+- name: Include OS-specific variables
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Include OS-version-specific variables
+  include_vars: "{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
+  when:
+    - ansible_os_family == "RedHat"
+
+- name: Upgrade system OS
+  yum:
+    name: '*'
+    state: latest
+  become: true
+
+- name: Install Software Stack
+  include_tasks: install_swst.yml
+
+- name: Clean up Yum cache
+  shell: yum clean all
+  become: true
+  warn: false
+
+- name: Get Ice Sheets Data
+  include_tasks: get_data.yml
