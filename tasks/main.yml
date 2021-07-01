@@ -19,7 +19,7 @@
 - name: Clean up Yum cache
   shell: yum clean all
   become: true
-  warn: false
+  #warn: false
 
 - name: Get Ice Sheets Data
   include_tasks: get_data.yml
