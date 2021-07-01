@@ -5,7 +5,7 @@
     state: directory
     mode: '0775'
     owner: "{{ data_user }}"
-    group: "{{ data-user }}"
+    group: "{{ data_user }}"
   become: true
 
 - name: Retrieve files from Data Commons via lftp
