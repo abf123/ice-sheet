@@ -5,34 +5,34 @@
 - name: Retrieve source archives
   get_url:
     url: "{{ item.source_url }}"
-    dest: "/home/cloud-user/{{ item.source_archive }}"
+    dest: "/home/{{ data_user }}/{{ item.source_archive }}"
 
 - name: Untar source archives
   unarchive:
-    src: "/home/cloud-user/{{ item.source_archive }}"
-    dest: "/home/cloud-user"
+    src: "/home/{{ data_user }}/{{ item.source_archive }}"
+    dest: "/home/{{ data_user }}"
     remote_src: true
 
 - name: Configure package build environment
   command: "./configure {{ item.configure_options|join(' ') }}"
   args:
-    chdir: "/home/cloud-user/{{ item.source_dir }}"
+    chdir: "/home/{{ data_user }}/{{ item.source_dir }}"
 
 - name: Build package
   command: make -j8
   args:
-    chdir: "/home/cloud-user/{{ item.source_dir }}"
+    chdir: "/home/{{ data_user }}/{{ item.source_dir }}"
 
 - name: Check build
   command: make -j8 check
   args:
-    chdir: "/home/cloud-user/{{ item.source_dir }}"
+    chdir: "/home/{{ data_user }}/{{ item.source_dir }}"
   when: item.check
 
 - name: Install
   command: make install
   args:
-    chdir: "/home/cloud-user/{{ item.source_dir }}"
+    chdir: "/home/{{ data_user }}/{{ item.source_dir }}"
   become: true
   notify: Rebuild library cache
 

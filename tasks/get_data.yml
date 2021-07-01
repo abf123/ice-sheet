@@ -4,8 +4,8 @@
     path: /DATA
     state: directory
     mode: '0775'
-    owner: cloud-user
-    group: cloud-user
+    owner: "{{ data_user }}"
+    group: "{{ data-user }}"
   become: true
 
 - name: Retrieve files from Data Commons via lftp
