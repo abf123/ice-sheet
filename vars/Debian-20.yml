@@ -1,0 +1,33 @@
+---
+base_packages:
+  - unzip
+  - gcc
+  - gfortran
+  - g++
+  - gpp
+  - build-essential
+  - wget
+  - expat
+  - libexpat1-dev
+  - libpng-dev
+  - curl
+  - libcurlpp-dev
+  - m4
+  - zlib1g
+  - zlib1g-dev
+  - make
+  - libx11-dev
+  - libxaw7
+  - libxaw7-dev
+  - lftp
+  - tar
+toolchain_packages:
+  - libnetcdf15
+  - libnetcdf-dev
+  - libudunits2-0
+  - libudunits2-dev
+  - udunits-bin
+  - libhdf5-103
+  - libhdf5-cpp-103
+  - libhdf5-dev
+  - ncview
