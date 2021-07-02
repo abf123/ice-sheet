@@ -1,0 +1,17 @@
+---
+base_packages:
+  - unzip
+  - gcc
+  - gpp
+  - gmake
+  - wget
+  - expat
+  - png
+  - curl
+  - m4
+  - lftp
+toolchain_packages:
+  - netcdf
+  - netcdf-fortran
+  - udunits
+  - hdf5
