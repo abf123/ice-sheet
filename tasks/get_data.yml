@@ -9,7 +9,8 @@
   become: true
 
 - name: Retrieve files from Data Commons via lftp
-  shell: /usr/bin/lftp -c 'open ftp://192.5.158.180; mget -O /DATA/ /pub/commons/meteorology/pollard-melange-ice-sheet-model2018/*'
+  shell: lftp -c 'open ftp://192.5.158.180; mget -O /DATA/ /pub/commons/meteorology/pollard-melange-ice-sheet-model2018/*'
+  #shell: /usr/bin/lftp -c 'open ftp://192.5.158.180; mget -O /DATA/ /pub/commons/meteorology/pollard-melange-ice-sheet-model2018/*'
 
 - name: Retrieve list of zip files in /DATA
   find:
