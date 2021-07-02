@@ -24,6 +24,7 @@ base_packages:
 toolchain_packages:
   - libnetcdf15
   - libnetcdf-dev
+  - netcdf-bin
   - libudunits2-0
   - libudunits2-dev
   - udunits-bin
