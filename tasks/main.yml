@@ -5,13 +5,13 @@
 - name: Include OS-version-specific variables
   include_vars: "{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml"
 
-- name: Upgrade system OS
-  yum:
-    name: '*'
-    state: latest
-  become: true
-  when:
-    - ansible_os_family == "RedHat"
+# - name: Upgrade system OS
+#   yum:
+#     name: '*'
+#     state: latest
+#   become: true
+#   when:
+#     - ansible_os_family == "RedHat"
 
 - name: Install Software Stack
   include_tasks: install_swst.yml
