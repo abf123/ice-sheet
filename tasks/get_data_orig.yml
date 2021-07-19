@@ -1,0 +1,32 @@
+---
+- name: Create /DATA directory
+  file:
+    path: /DATA
+    state: directory
+    mode: '0775'
+    owner: "{{ data_user }}"
+    group: "{{ data_user }}"
+  become: true
+
+- name: Retrieve files from Data Commons via lftp
+  shell: lftp -c 'open ftp://192.5.158.180; mget -O /DATA/ /pub/commons/meteorology/pollard-melange-ice-sheet-model2018/*'
+  #shell: /usr/bin/lftp -c 'open ftp://192.5.158.180; mget -O /DATA/ /pub/commons/meteorology/pollard-melange-ice-sheet-model2018/*'
+
+- name: Retrieve list of zip files in /DATA
+  find:
+    paths: /DATA
+    patterns: '*.zip'
+  register: zipfiles
+
+- name: Unzip data zipfiles
+  unarchive:
+    src: "{{ item.path }}"
+    dest: /DATA
+    remote_src: true
+  loop: "{{ zipfiles.files }}"
+
+- name: Remove zipfiles
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ zipfiles.files }}"
