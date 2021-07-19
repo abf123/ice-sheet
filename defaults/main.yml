@@ -1,3 +1,5 @@
 ---
 melange_type: install
 data_user: cloud-user
+data_dir: '/DATA'
+data_mode: '0755'

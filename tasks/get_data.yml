@@ -1,9 +1,9 @@
 ---
-- name: Create /DATA directory
+- name: Create data directory
   file:
-    path: /DATA
+    path: "{{ data_dir }}"
     state: directory
-    mode: '0775'
+    mode: "{{ data_mode }}"
     owner: "{{ data_user }}"
     group: "{{ data_user }}"
   become: true
@@ -12,21 +12,21 @@
   shell: lftp -c 'open ftp://192.5.158.180; mget -O /DATA/ /pub/commons/meteorology/pollard-melange-ice-sheet-model2018/*'
   #shell: /usr/bin/lftp -c 'open ftp://192.5.158.180; mget -O /DATA/ /pub/commons/meteorology/pollard-melange-ice-sheet-model2018/*'
 
-- name: Retrieve list of zip files in /DATA
+- name: Retrieve list of archives in data directory
   find:
-    paths: /DATA
-    patterns: '*.zip'
-  register: zipfiles
+    paths: "{{ data_dir }}"
+    patterns: '*.zip,*.tgz,*.tbz,*.txz,*.tar.gz,*.tar.bz2,*.tar.xz'
+  register: archives
 
-- name: Unzip data zipfiles
+- name: Unzip data archives
   unarchive:
     src: "{{ item.path }}"
-    dest: /DATA
+    dest: "{{ data_dir }}"
     remote_src: true
-  loop: "{{ zipfiles.files }}"
+  loop: "{{ archives.files }}"
 
-- name: Remove zipfiles
+- name: Remove archives
   file:
     path: "{{ item.path }}"
     state: absent
-  loop: "{{ zipfiles.files }}"
+  loop: "{{ archives.files }}"
