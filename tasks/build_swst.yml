@@ -6,27 +6,37 @@
   get_url:
     url: "{{ item.source_url }}"
     dest: "/home/{{ data_user }}/{{ item.source_archive }}"
+  become: true
+  become_user: "{{ data_user }}"
 
 - name: Untar source archives
   unarchive:
     src: "/home/{{ data_user }}/{{ item.source_archive }}"
     dest: "/home/{{ data_user }}"
     remote_src: true
+  become: true
+  become_user: "{{ data_user }}"
 
 - name: Configure package build environment
   command: "./configure {{ item.configure_options|join(' ') }}"
   args:
     chdir: "/home/{{ data_user }}/{{ item.source_dir }}"
+  become: true
+  become_user: "{{ data_user }}"
 
 - name: Build package
   command: make -j8
   args:
     chdir: "/home/{{ data_user }}/{{ item.source_dir }}"
+  become: true
+  become_user: "{{ data_user }}"
 
 - name: Check build
   command: make -j8 check
   args:
     chdir: "/home/{{ data_user }}/{{ item.source_dir }}"
+  become: true
+  become_user: "{{ data_user }}"
   when: item.check
 
 - name: Install
