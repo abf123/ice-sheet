@@ -9,17 +9,18 @@
   become: true
 
 - name: Retrieve files from Data Commons via lftp
-  shell: lftp -c 'open ftp://192.5.158.180; mget -O /DATA/ /pub/commons/meteorology/pollard-melange-ice-sheet-model2018/*'
-  #shell: /usr/bin/lftp -c 'open ftp://192.5.158.180; mget -O /DATA/ /pub/commons/meteorology/pollard-melange-ice-sheet-model2018/*'
+  shell: "lftp -c 'open ftp://192.5.158.180; mget -O {{ data_dir }}/ /pub/commons/meteorology/pollard-melange-ice-sheet-model2018/*'"
   become: true
-  become_user: "{{ data_user }}"
+
+- name: Update data ownership
+  shell: "chown -Rh {{ data_user }}:{{ data_user }} {{ data_dir }}"
+  become: true
 
 - name: Retrieve list of archives in data directory
   find:
     paths: "{{ data_dir }}"
     patterns: '*.zip,*.tgz,*.tbz,*.txz,*.tar.gz,*.tar.bz2,*.tar.xz'
   become: true
-  become_user: "{{ data_user }}"
   register: archives
 
 - name: Unzip data archives
@@ -27,8 +28,9 @@
     src: "{{ item.path }}"
     dest: "{{ data_dir }}"
     remote_src: true
+    owner: "{{ data_user }}"
+    group: "{{ data_user }}"
   become: true
-  become_user: "{{ data_user }}"
   loop: "{{ archives.files }}"
 
 - name: Remove archives
@@ -36,5 +38,4 @@
     path: "{{ item.path }}"
     state: absent
   become: true
-  become_user: "{{ data_user }}"
   loop: "{{ archives.files }}"

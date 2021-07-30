@@ -6,16 +6,18 @@
   get_url:
     url: "{{ item.source_url }}"
     dest: "/home/{{ data_user }}/{{ item.source_archive }}"
+    owner: "{{ data_user }}"
+    group: "{{ data_user }}"
   become: true
-  become_user: "{{ data_user }}"
 
 - name: Untar source archives
   unarchive:
     src: "/home/{{ data_user }}/{{ item.source_archive }}"
     dest: "/home/{{ data_user }}"
     remote_src: true
+    owner: "{{ data_user }}"
+    group: "{{ data_user }}"
   become: true
-  become_user: "{{ data_user }}"
 
 - name: Configure package build environment
   command: "./configure {{ item.configure_options|join(' ') }}"
