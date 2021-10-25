@@ -1,4 +1,22 @@
 ---
+- name: Prepare CentOS 8 system for installed stack
+  block:
+    - name: Enable CentOS 8 PowerTools repository
+      command: dnf config-manager --set-enabled powertools
+      args:
+        warn: no
+      become: true
+    - name: Enable CentOS 8 EPEL repository
+      dnf:
+        name:
+          - epel-release
+        state: present
+      become: true
+  when:
+    - melange_type == 'install'
+    - ansible_distribution == 'CentOS'
+    - ansible_distribution_major_version == '8'
+
 - name: Install Base Packages
   package:
     name: "{{ base_packages }}"
